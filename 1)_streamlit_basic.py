@@ -1,5 +1,6 @@
 import streamlit as st
 from PIL import Image
+import io
 import fitz  #pip install pymupdf 필요
 
 
@@ -38,17 +39,28 @@ with st.expander("파일 업로드 기능"):
         st.header("이미지 업로드")
         uploaded_file = st.file_uploader("이미지 파일을 업로드하세요", type=['jpg', 'png'])
         if uploaded_file is not None:
-          image = Image.open(uploaded_file)
-          st.image(image, caption='업로드한 이미지', use_column_width=True)
+            # 파일 크기 검증 추가
+            file_size = uploaded_file.size
+            max_size = 5 * 1024 * 1024  # 5MB
+            if file_size > max_size:
+                st.error("파일 크기가 너무 큽니다. 5MB 이하의 파일을 업로드해주세요.")
+            else:
+                image = Image.open(uploaded_file)
+                st.image(image, caption='업로드한 이미지', use_column_width=True)
 
     with tab2:
         st.header("음악 업로드")
         uploaded_audio_file = st.file_uploader("음악 파일을 업로드하세요", type=['mp3', 'wav'])
         if uploaded_audio_file is not None:
-          st.audio(uploaded_audio_file.read(), format='audio/wav')
+          audio_size = uploaded_audio_file
+          max_audio_size = 5 * 1024 * 1024 * 2  # 10MB
+          if audio_size > max_audio_size:
+                st.error("파일 크기가 너무 큽니다. 5MB 이하의 파일을 업로드해주세요.")
+          else:
+                st.audio(uploaded_audio_file.read(), format='audio/wav')
 
     with tab3:
-        st.header("음악 업로드")
+        st.header("텍스트 업로드")
         uploaded_text_file = st.file_uploader("텍스트 파일을 업로드하세요", type=['txt'])
         if uploaded_text_file is not None:
         # 파일 내용을 문자열로 읽기
@@ -59,18 +71,26 @@ with st.expander("파일 업로드 기능"):
         st.header("pdf 업로드")
         uploaded_pdf_file = st.file_uploader("PDF 파일을 업로드하세요", type=['pdf'])
         if uploaded_pdf_file is not None:
-          doc = fitz.open("pdf", uploaded_pdf_file.read())  # PDF 파일 로드
-          text = ""
-          for page in doc:  # 각 페이지별로 텍스트 추출
-            text += page.get_text()
-          st.text_area("PDF 파일 내용", text, height=300)
+          # 파일 크기 검증 추가
+            pdf_size = uploaded_pdf_file.size
+            max_pdf_size = 5 * 1024 * 1024 # 5MB
+            if pdf_size > max_pdf_size:
+                st.error("파일 크기가 너무 큽니다. 5MB 이하의 파일을 업로드해주세요.")
+            else:
+                image = Image.open(uploaded_file)
+                st.image(image, caption='업로드한 이미지', use_column_width=True)
+                doc = fitz.open("pdf", uploaded_pdf_file.read())  # PDF 파일 로드
+                text = ""
+                for page in doc:  # 각 페이지별로 텍스트 추출
+                  text += page.get_text()
+                st.text_area("PDF 파일 내용", text, height=300)
 
 with st.expander("유튜브"): 
       st.subheader('Bougainvillea')
       st.video('https://www.youtube.com/watch?v=x8glB-giSiw')
       st.write("""
           「Bougainvillea」
-          Voca: やなぎなぎ
+          Vocal: やなぎなぎ
           作詞作曲：麻枝 准
           編曲: MANYO
       """)
