@@ -9,24 +9,24 @@ st.title('Streamlit Tutorial')
 
 
 with st.expander("UI 다루기"):
-    # 버튼
+    st.subheader('버튼과 문자열')
     if st.button('클릭하세요!'):
        user_input = st.text_input("문자열을 입력해주세요", "Streamlit은 정말 멋져요!")
        st.write(f'입력한 내용: {user_input}')
 
-    # 체크박스
+    st.subheader('체크박스')
     if st.checkbox('보이기/숨기기'):
        st.write("체크박스가 활성화되었어요!")
 
-    # 셀렉트박스
+    st.subheader('셀렉트박스')
     option = st.selectbox('좋아하는 숫자를 고르세요', list(range(1, 11)))
     st.write('선택한 숫자:', option)
 
-    # 슬라이더
+    st.subheader('슬라이더')
     age = st.slider('나이', 0, 100, 25)
     st.write("나이는", age, "살이에요")
 
-    # 하이퍼링크
+    st.subheader('하이퍼링크')
     st.markdown('[ChatGPT 참조](https://chat.openai.com/share/521db437-f259-453b-99fd-b3ca4c85376c)')
 
 
@@ -64,6 +64,10 @@ with st.expander("pdf 업로드 기능"):
       for page in doc:  # 각 페이지별로 텍스트 추출
         text += page.get_text()
       st.text_area("PDF 파일 내용", text, height=300)
+
+with st.expander("유튜브"): 
+    st.video('https://www.youtube.com/watch?v=x8glB-giSiw')
+
 
 
 
